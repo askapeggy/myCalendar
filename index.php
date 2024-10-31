@@ -8,11 +8,15 @@
   <title>萬年曆作業</title>
   <link rel="stylesheet" href="style.css">
   <style> 
-   /*請在這裹撰寫你的CSS*/
-   <style> 
+  /*請在這裹撰寫你的CSS*/
     body {
-            margin: 0; /* 清除邊距  跑馬燈必須這樣做*/
-            padding: 0; /* 清除內邊距  跑馬燈必須這樣做*/
+      margin: 0; /* 清除邊距 */
+      padding: 0; /* 清除內邊距 */
+      height: 100vh; /* 100% 視窗高度 */
+      width: 100vw; /* 100% 視窗寬度 */
+      background-image: url('pic/image.png'); /* 替換為你的圖片 URL */
+      background-size: cover; /* 確保圖片覆蓋整個背景 */
+      background-position: center; /* 圖片居中 */
     }
     /* 跑馬燈使用 */
     .marquee { 
@@ -20,11 +24,13 @@
       overflow: hidden; 
       white-space: nowrap; 
       box-sizing: border-box; 
+      color: red;
+      font-size:36px
     } 
     .marquee span { 
       display: inline-block; 
       padding-left: 100%; 
-      animation: marquee 10s linear infinite;
+      animation: marquee 20s linear infinite;
     } 
     @keyframes marquee 
     { 
@@ -35,6 +41,7 @@
 </head>
 <body>
 <h1>萬年曆</h1>  
+<div class="overlay"></div>
 <!-- 載入 -->
 <?php include("myCode/getMarker.php") ?>
 <?php include("myCode/calendar.php") ?>
@@ -47,20 +54,5 @@
     <span id="marquee-text"><?=$markItem[0];?></span> 
 </div> 
 <!-- 萬年曆排版地方 -->
-
-
-<!-- 跑馬燈時間控制和程式部分 -->
-<script> 
-  const texts = <?php echo json_encode($markItem); ?>;
-  let currentIndex = 0; 
-  //換字跑馬燈
-  function changeText() 
-  { 
-    currentIndex = (currentIndex + 1) % texts.length; 
-    document.getElementById("marquee-text").innerText = texts[currentIndex]; 
-  } 
-  // 每10秒更換一次文字 
-  setInterval(changeText, 10000); 
-</script>  
 </body>
 </html>

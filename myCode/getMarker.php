@@ -7,6 +7,7 @@
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $result = curl_exec($ch);
     curl_close($ch);
+    srand(time());
     //判斷是否抓取成功
     if($result == false)
     {
@@ -17,8 +18,6 @@
     @$dom->loadHTML($result);
     $xpath = new DOMXPath($dom);
     $markItem = [];
-    // $startNode = $xpath->query('//span[@id="語錄"]')->item(0);
-    // $endNode = $xpath->query('//span[@id="外部鏈結"]')->item(0);
     $startNode = $xpath->query('//h2[@id="語錄"]')->item(0); 
     $endNode = $xpath->query('//h2[@id="外部鏈結"]')->item(0);
 
@@ -28,7 +27,7 @@
         echo "找不到指定的節點。"; exit;
     }
     $node = $startNode->parentNode->nextSibling;
-    
+
     //開始從 語錄 抓到 外部鏈結
     while($node && $node->isSameNode($endNode->parentNode) == false)
     {
@@ -59,3 +58,19 @@
     }
         */
 ?>
+
+
+<!-- 跑馬燈時間控制和程式部分 -->
+<script> 
+  const texts = <?php echo json_encode($markItem); ?>;
+  let currentIndex = 0; 
+  //換字跑馬燈
+  function changeText() 
+  { 
+    currentIndex = (currentIndex + 1) % texts.length; 
+    document.getElementById("marquee-text").innerText = texts[currentIndex]; 
+  } 
+  // 每10秒更換一次文字 
+  setInterval(changeText, 20000); 
+</script>  
+
