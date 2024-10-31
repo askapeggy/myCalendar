@@ -8,7 +8,7 @@
   <title>萬年曆作業</title>
   <link rel="stylesheet" href="style.css">
   <style> 
-  /*請在這裹撰寫你的CSS*/
+    /*請在這裹撰寫你的CSS*/
     body {
       margin: 0; /* 清除邊距 */
       padding: 0; /* 清除內邊距 */
@@ -32,12 +32,56 @@
       padding-left: 100%; 
       animation: marquee 20s linear infinite;
     } 
-    @keyframes marquee 
-    { 
+    @keyframes marquee { 
       0% { transform: translate(0, 0); } 
       100% { transform: translate(-100%, 0); } 
     }  
-  </style>
+
+
+    .table-container {
+      position: relative; /* 相對定位 */
+      width: 80%;
+      height: 70%;
+      padding: 20px; /* 添加內邊距 */
+      background-color: rgba(240, 240, 240, 0.1); /* 背景顏色 */
+      border-radius: 15px; /* 圓角 */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8); /* 陰影效果 */
+      margin: 0 auto;
+    }
+    table {
+      border-collapse: collapse; /* 合併邊框 */
+      width: 100%; /* 表格寬度 */
+      height: 100%; /* 自動調整高度 */
+    }
+    th, td {
+      background-color: rgba(240, 240, 240, 0.4); /* 偶數行背景 */
+      border: 0px solid rgba(0, 0, 0, 0.3); /* 邊框顏色和透明度 */
+      width: 14.28%;
+      padding: 15px;
+      text-align: center;
+      font-size: 200%;
+      border-radius: 200px;/* 圓角 */
+    }
+    .tdRed{
+        background-color:  rgba(233, 43, 95, 0.4);
+        border: 0px solid rgba(0, 0, 0, 0.3); /* 邊框顏色和透明度 */
+    }
+    th {
+      background-color: rgba(0, 123, 255, 0.5); /* 表頭的背景顏色 */
+      color: white; /* 表頭文字顏色 */
+    }
+    /*tr:nth-child(even) {*/
+    tr {
+      /*background-color: rgba(240, 240, 240, 0.6); /* 偶數行背景 */
+      /*border-radius: 15px;/* 圓角 */
+    }
+    /* 懸停效果 */
+    td:hover {
+      background-color: rgba(100, 100, 255, 0.5); /* 懸停時顯示淺藍色 */
+    }
+
+
+</style>
 </head>
 <body>
 <h1>萬年曆</h1>  
@@ -54,5 +98,48 @@
     <span id="marquee-text"><?=$markItem[0];?></span> 
 </div> 
 <!-- 萬年曆排版地方 -->
+<div class="table-container">
+  <table>
+      <thead>
+          <tr>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+          </tr>
+      </thead>
+      <tbody>
+        <?php
+            $count = 0;
+            foreach($showData as $sData => $item)
+            {
+              echo "<tr>";
+              foreach($item as $d)
+              {
+                if($count == 0 || $count == 6)
+                {
+                  echo "<td class='tdRed'>".$d."</td>";
+                }else
+                {
+                  echo "<td>".$d."</td>";
+                }
+                if($count == 6)
+                {
+                  $count = 0;
+                }else
+                {
+                  $count ++;
+                }
+              }
+              echo "</tr>";
+            }
+        ?>
+      </tbody>
+  </table>
+</div>
+
 </body>
 </html>

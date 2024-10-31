@@ -36,15 +36,15 @@
                 $dayNum = ($i*7) + $j+1 - $w;
                 if($dayNum <= $daysInMonth && $dayNum > 0)
                 {
-                    $cData[] = $dayNum;
+                    $cData[$i][$j] = $dayNum;
                 }else
                 {
                     if($dayNum > $daysInMonth)
                     {
-                        $cData[] = $dayNum - $daysInMonth;
+                        $cData[$i][$j] = $dayNum - $daysInMonth;
                     }else
                     {
-                        $cData[] = $daysInMonthUp - $w + $j + 1;
+                        $cData[$i][$j] = $daysInMonthUp - $w + $j + 1;
                     }
                 }
             }
@@ -53,8 +53,8 @@
         echo "<pre>";
         print_r($cData);
         echo "</pre>";
-        return $cData;
         */
+        return $cData;
     }
 
 ?>
