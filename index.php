@@ -78,6 +78,11 @@
         background-color:  rgba(233, 43, 95, 0.5);
         border: 0px solid rgba(0, 0, 0, 0.3); /* 邊框顏色和透明度 */
     }
+    .tdBlue{
+        background-color:  rgba(0, 0, 255, 0.7);
+        border: 0px solid rgba(0, 0, 0, 0.3); /* 邊框顏色和透明度 */
+    }
+
     th {
       background-color: rgba(0, 123, 255, 0.5); /* 表頭的背景顏色 */
       color: white; /* 表頭文字顏色 */
@@ -153,14 +158,18 @@
               foreach($item as $d)
               {
                 $showComm = "<td";
-                if($count == 0 || $count == 6)
+                if($year == $currentYear && $month == $currentMonth && $d == $currentDay)
                 {
-                  $showComm = $showComm." class='tdRed'>";
-                  //echo "<td class='tdRed'>".$d."</td>";
+                  $showComm = $showComm." class='tdBlue'>";
                 }else
                 {
-                  $showComm = $showComm.">";
-                  //echo "<td>".$d."</td>";
+                  if($count == 0 || $count == 6)
+                  {
+                    $showComm = $showComm." class='tdRed'>";
+                  }else
+                  {
+                    $showComm = $showComm.">";
+                  }
                 }
                 //處理字體顏色
                 $showComm = $showComm."<div style='font-size:40px; ";
