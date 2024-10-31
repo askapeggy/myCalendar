@@ -14,10 +14,10 @@
 <body>
 <h1>萬年曆</h1>  
 <?php include("myCode/getMarker.php") ?>
-
+<?php include("myCode/calendar.php") ?>
 <?php
 /*請在這裹撰寫你的萬年曆程式碼*/  
-  
+  $showData = getCalendar($currentYear, $currentMonth);
 ?>
   
 </body>
