@@ -13,7 +13,7 @@
 
         //資料初始化
         $year = $cY;
-        $month = $cN;
+        $month = $cM;
         if($month - 1 == 0)
         {
             $monthUp = 12;
@@ -49,10 +49,12 @@
                 }
             }
         }
+        /*
         echo "<pre>";
         print_r($cData);
         echo "</pre>";
         return $cData;
+        */
     }
 
 ?>
