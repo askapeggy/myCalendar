@@ -6,6 +6,29 @@
     // 取得目前日
     $currentDay = date("d");
     
+    if(isset($_GET['month'])){
+        $month=$_GET['month'];
+    }else{
+        $month=$currentMonth;
+    }
+    if(isset($_GET['year'])){
+        $year=$_GET['year'];
+        
+    }else{
+        $year=$currentYear;
+    }
+
+    if($month >= 13)
+    {
+        $year= $year+1;
+        $month = 1;
+    }
+    if($month <= 0)
+    {
+        $year= $year-1;
+        $month = 12;
+    }
+    
     //取得計算日期後資料
     function getCalendar($cY, $cM)
     {
