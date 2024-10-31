@@ -6,20 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="#">
   <title>萬年曆作業</title>
+  <link rel="stylesheet" href="style.css">
   <style> 
    /*請在這裹撰寫你的CSS*/
-    .mytable
-    {
-      
-    }
   </style>
 </head>
 <body>
 <h1>萬年曆</h1>  
+<?php include("myCode/getMarker.php") ?>
 
 <?php
 /*請在這裹撰寫你的萬年曆程式碼*/  
-  
   
 ?>
   
