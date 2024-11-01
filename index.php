@@ -60,6 +60,16 @@
       margin: 0 auto;
     }
 
+    .table-title {
+      position: relative; /* 相對定位 */
+      width: 80%;
+      height: 15%;
+      padding: 20px; /* 添加內邊距 */
+      background-color: rgba(128, 128, 128, 0.0); /* 背景顏色 */
+      margin: 0 auto;
+    }
+
+
     table {
       border-collapse: collapse; /* 合併邊框 */
       width: 100%; /* 表格寬度 */
@@ -121,16 +131,24 @@
     <span id="marquee-text"><?=$markItem[0];?></span> 
 </div> 
 <!-- 萬年曆排版地方 -->
-<div class="table-menu">
+<div class="table-title">
   <table>
     <tr>
-        <td><a href="index.php?year=<?=$year-1;?>&month=<?=$month;?>">去年</a></td>
-        <td class ="menutd" rowspan="2" colspan="1" style="font-size:70px; color:gold;"><?php echo $year."年".$month."月";?></td>
-        <td><a href="index.php?year=<?=$year+1;?>&month=<?=$month;?>">明年</a></td>
+        <td style="font-size:2vw;">
+          <a href="index.php?year=<?=$year-1;?>&month=<?=$month;?>" style="display: block; height: 100%; width: 100%;">去年</a>
+        </td>
+        <td class ="menutd" rowspan="2" colspan="1" style="font-size:3vw; color:gold;"><?php echo $year."年".$month."月";?></td>
+        <td style="font-size:2vw;">
+          <a href="index.php?year=<?=$year+1;?>&month=<?=$month;?>" style="display: block; height: 100%; width: 100%;">明年</a>
+        </td>
       </tr>
       <tr>
-        <td><a href="index.php?year=<?=$year;?>&month=<?=$month-1;?>">上個月</a></td>
-        <td><a href="index.php?year=<?=$year;?>&month=<?=$month+1;?>">下個月</a></td>
+        <td style="font-size:2vw;">
+          <a href="index.php?year=<?=$year;?>&month=<?=$month-1;?>" style="display: block; height: 100%; width: 100%;">上個月</a>
+        </td>
+        <td style="font-size:2vw;">
+          <a href="index.php?year=<?=$year;?>&month=<?=$month+1;?>" style="display: block; height: 100%; width: 100%;">下個月</a>
+        </td>
     </tr>
   </table>
 </div>
@@ -150,35 +168,49 @@
       </thead>
       <tbody>
         <?php
+            // 把萬年曆資料顯示出來
             $count = 0;
             $countGray = 0;
+            $startcount = -1;
+            // 矩陣資料全部印出
             foreach($showData as $sData => $item)
             {
               echo "<tr>";
               foreach($item as $d)
               {
-                $showComm = "<td";
-                if($year == $currentYear && $month == $currentMonth && $d == $currentDay)
+                //從當月1日才開始計算
+                if($startcount == -1 && $d == 1)
                 {
+                  $startcount = $currentDay - 1;
+                }
+                //填入td顏色
+                $showComm = "<td";
+                if($year == $currentYear && $month == $currentMonth && $d == $currentDay && $startcount == 0)
+                {
+                  //當日的td藍色
+                  $startcount = -2;
                   $showComm = $showComm." class='tdBlue'>";
                 }else
                 {
                   if($count == 0 || $count == 6)
                   {
+                    //星期六 日 的td紅色
                     $showComm = $showComm." class='tdRed'>";
                   }else
                   {
+                    //一般時間就是灰色
                     $showComm = $showComm.">";
                   }
                 }
-                //處理字體顏色
-                $showComm = $showComm."<div style='font-size:40px; ";
+                //處理數字字體顏色
+                $showComm = $showComm."<div style='font-size:3vw; ";
+                //不是當月都是灰色
                 switch($countGray)
                 {
                   case 0:
                     if($d == 1)
                     {
-                      $countGray =1;
+                      $countGray = 1;
                     }
                     break;                  
                   case 1:
