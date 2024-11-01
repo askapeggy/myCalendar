@@ -60,17 +60,3 @@
 ?>
 
 
-<!-- 跑馬燈時間控制和程式部分 -->
-<script> 
-  const texts = <?php echo json_encode($markItem); ?>;
-  let currentIndex = 0; 
-  //換字跑馬燈
-  function changeText() 
-  { 
-    currentIndex = (currentIndex + 1) % texts.length; 
-    document.getElementById("marquee-text").innerText = texts[currentIndex]; 
-  } 
-  // 每10秒更換一次文字 
-  setInterval(changeText, 20000); 
-</script>  
-

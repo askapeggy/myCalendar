@@ -30,7 +30,7 @@
     .marquee span { 
       display: inline-block; 
       padding-left: 100%; 
-      animation: marquee 20s linear infinite;
+      animation: marquee 10s linear infinite;
     } 
     @keyframes marquee { 
       0% { transform: translate(0, 0); } 
@@ -244,6 +244,22 @@
       </tbody>
   </table>
 </div>
+
+<!-- 跑馬燈時間控制和程式部分 -->
+<script> 
+  const texts = <?php echo json_encode($markItem); ?>;
+  let currentIndex = Math.floor(Math.random() * texts.length); 
+  //初始顯示隨機文字
+  document.getElementById("marquee-text").innerText = texts[currentIndex];  //換字跑馬燈
+  function changeText() 
+  { 
+    currentIndex = Math.floor(Math.random() * texts.length); 
+    document.getElementById("marquee-text").innerText = texts[currentIndex]; 
+  } 
+  // 每10秒更換一次文字 
+  setInterval(changeText, 10000); 
+</script>  
+
 
 </body>
 </html>
