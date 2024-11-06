@@ -97,11 +97,6 @@
       background-color: rgba(0, 123, 255, 0.5); /* 表頭的背景顏色 */
       color: white; /* 表頭文字顏色 */
     }
-    /*tr:nth-child(even) {*/
-    tr {
-      /*background-color: rgba(240, 240, 240, 0.6); /* 偶數行背景 */
-      /*border-radius: 15px;/* 圓角 */
-    }
     /* 懸停效果 */
     td:hover {
       background-color: rgba(100, 100, 255, 0.6); /* 懸停時顯示淺藍色 */
