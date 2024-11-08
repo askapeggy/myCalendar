@@ -252,19 +252,20 @@
             {
               //當日的td藍色
               $startcount = -2;
-              $showComm = $showComm." class='tdBlue'>";
+              $showComm = $showComm." class='tdBlue'";
             }else
             {
               if($count == 0 || $count == 6)
               {
                 //星期六 日 的td紅色
-                $showComm = $showComm." class='tdRed'>";
+                $showComm = $showComm." class='tdRed'";
               }else
               {
                 //一般時間就是灰色
-                $showComm = $showComm." class='tdG'>";
+                $showComm = $showComm." class='tdG'";
               }
             }
+            $showComm = $showComm."id=T".$countid.">";
             //處理數字字體顏色
             //$showComm = $showComm."<div style='font-size:3vw;'id='".$countid."'";
             $showComm = $showComm."<div style='font-size:3vw;";
@@ -292,14 +293,6 @@
               $showComm = $showComm."color:black;";
             }
             $showComm = $showComm."' id=".$countid.">";
-              /*
-            if($countGray == 0 || $countGray== 2)
-            {
-              $showComm = $showComm."color:gray;'";
-            }
-            $showComm = $showComm.">";
-            */
-
             $showComm = $showComm.$d."</div>";
             $showComm = $showComm."</td>";
             echo $showComm;
@@ -323,8 +316,13 @@
 
 <!-- 跑馬燈時間控制和程式部分 -->
 <script> 
+  //取出PHP中 年和月
   var year = <?php echo $year; ?>;
   var month = <?php echo $month; ?>;
+  //取出PHP中 目前年和月和日
+  var cYear = <?php echo $currentYear ?>;
+  var cMonth1 = <?php echo $currentMonth ?>;
+  var cDay = <?php echo $currentDay ?>;
   const texts = <?php echo json_encode($markItem); ?>;
   let currentIndex = Math.floor(Math.random() * texts.length); 
   //初始顯示隨機文字
@@ -374,6 +372,7 @@
     var countNum = 0;
     var countUp = -1;
     var xhr = new XMLHttpRequest(); 
+    var blueShow = 1;
 
     xhr.open("GET", "myCode/process.php?year=" + year +"&month="+ month, true);
     // 設定 call back function
@@ -381,46 +380,64 @@
     {
       if (xhr.status == 200) 
       {
-          try { 
-                // 嘗試解讀 JSON
-                var responseData = JSON.parse(xhr.responseText);
-                //console.log(responseData); // 印出JSON
-              } catch (e) 
-                {
-                  console.error("解讀 JSON 錯誤: ", e);
-                  document.getElementById("result").innerText = "PHP回應不正確";
-                }
-                responseData.forEach((week, weekIndex) => 
-                {
-                  week.forEach((day, dayIndex) => 
+        try { 
+              // 嘗試解讀 JSON
+              var responseData = JSON.parse(xhr.responseText);
+              //console.log(responseData); // 印出JSON
+            } catch (e) 
+            {
+              console.error("解讀 JSON 錯誤: ", e);
+              document.getElementById("result").innerText = "PHP回應不正確";
+            }
+            responseData.forEach((week, weekIndex) => 
+            {
+              week.forEach((day, dayIndex) => 
+              {
+                //let eleTdName = `T${countNum}`;
+                //console.error(eleTdName);
+                let eleTD = document.getElementById(`T${countNum}`);
+                eleTD.classList.replace('tdRed', 'tdG');
+                eleTD.classList.replace('tdBlue', 'tdG');
+               if(year == cYear && month == cMonth1 && day == cDay && blueShow == 1)
+               {
+                blueShow = 0;
+                eleTD.classList.replace('tdG', 'tdBlue');                  
+               }else
+               {
+                if((countNum%7 == 0) || (countNum%7 == 6))
                   {
-                    let ele = document.getElementById(`${countNum}`);
-                    if(ele)
-                    {
-                      //判斷是否是當月 字必須要黑色其餘灰色
-                      let currentStyle = ele.getAttribute("style");
-                      if((countUp == -1) && (day == 1))
-                      {
-                        countUp = 0;
-                      }else if((countUp == 0) && (day == 1))
-                      {
-                        countUp = -2;
-                      }
-                      if(countUp == -1 || countUp == -2)
-                      {
-                        ele.style.color = "gray";
-                      }else
-                      {
-                        ele.style.color = "black";
-                      }
-                      ele.innerHTML = `${day}`;
-                    }else
-                    {
-                      console.error(`找不到 ID: ${countNum}`);
-                    }
-                    countNum = countNum + 1;
-                  });
-                });
+                    eleTD.classList.replace('tdG', 'tdRed');
+                  }
+               }
+                //console.error(`TD: ${countNum}`);
+                let ele = document.getElementById(`${countNum}`);
+                if(ele)
+                {
+                  //判斷是否是當月 字必須要黑色其餘灰色
+                  let currentStyle = ele.getAttribute("style");
+                  //console.error(`找不到 ID: ${countNum}`);
+                  if((countUp == -1) && (day == 1))
+                  {
+                    countUp = 0;
+                  }else if((countUp == 0) && (day == 1))
+                  {
+                    countUp = -2;
+                  }
+                  if(countUp == -1 || countUp == -2)
+                  {
+                    ele.style.color = "gray";
+                  }else
+                  {
+                    ele.style.color = "black";
+                  }
+                  ele.innerHTML = `${day}`;
+                }else
+                {
+                  console.error(`找不到 ID: ${countNum}`);
+                }
+                countNum = countNum + 1;
+              });
+            });
       } else 
       {
         console.error("Error with request: " + xhr.status);
