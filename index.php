@@ -15,7 +15,7 @@
       height: 100vh; /* 100% 視窗高度 */
       width: 100vw; /* 100% 視窗寬度 */
       box-sizing: border-box;
-      background-image: url('pic/image.png'); /* 替換為你的圖片 URL */
+      background-image: url('pic/7.png'); /* 替換為你的圖片 URL */
       background-size: cover; /* 確保圖片覆蓋整個背景 */
       background-position: center; /* 圖片居中 */
     }
@@ -339,6 +339,7 @@
   //取資料
   function callPHP(ym) 
   {
+    changeBackground();
     switch(ym)
     {
       case 1:
@@ -445,6 +446,26 @@
     };
     // Send the request
     xhr.send();
+  }
+
+  window.onload = function() 
+  {
+    changeBackground();
+  };
+  //換背景
+  function changeBackground()
+  {
+    const backImage = [
+      'pic/7.png',
+      'pic/1.webp',
+      'pic/2.webp',
+      'pic/3.webp',
+      'pic/4.webp',
+      'pic/5.webp',
+      'pic/6.webp',
+    ];
+    let currentIndex = Math.floor(Math.random() * backImage.length); 
+    document.body.style.backgroundImage = `url('${backImage[currentIndex]}')`;
   }
 </script>  
 
