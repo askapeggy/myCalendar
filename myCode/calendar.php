@@ -29,7 +29,7 @@
         $month = 12;
     }
     
-    //取得計算日期後資料
+    //取得計算日期後資料回傳矩陣資料
     function getCalendar($cY, $cM)
     {
         $cData = [];
@@ -72,11 +72,6 @@
                 }
             }
         }
-        /*
-        echo "<pre>";
-        print_r($cData);
-        echo "</pre>";
-        */
         return $cData;
     }
 

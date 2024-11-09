@@ -46,17 +46,6 @@
         }
         $node = $node->nextSibling;
     }
-    /*
-    //顯示提取的內容
-    if(!empty($markItem))
-    {
-        echo "<pre>";
-        print_r($markItem);
-        echo "</pre>";
-    }else{
-        echo "目前無內容";
-    }
-        */
 ?>
 
 

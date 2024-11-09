@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="#">
   <title>萬年曆作業</title>
-  <link rel="stylesheet" href="style.css">
   <style> 
     /*請在這裹撰寫你的CSS*/
     body {
@@ -18,6 +17,15 @@
       background-image: url('pic/7.png'); /* 替換為你的圖片 URL */
       background-size: cover; /* 確保圖片覆蓋整個背景 */
       background-position: center; /* 圖片居中 */
+    }
+    .overlay {
+    position: fixed; /* 固定位置 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色覆蓋層 */
+    z-index: 0; /* 在影片上方 */
     }
     /* 跑馬燈使用 */
     .marquee { 
@@ -37,7 +45,6 @@
       0% { transform: translate(0, 0); } 
       100% { transform: translate(-100%, 0); } 
     }  
-
 
     .table-container {
       position: relative; /* 相對定位 */
@@ -61,7 +68,6 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8); /* 陰影效果 */
       margin: 0 auto;
     }
-
     .table-title {
       position: relative; /* 相對定位 */
       width: 80%;
@@ -70,8 +76,6 @@
       background-color: rgba(128, 128, 128, 0.0); /* 背景顏色 */
       margin: 0 auto;
     }
-
-
     table {
       border-collapse: collapse; /* 合併邊框 */
       width: 100%; /* 表格寬度 */
@@ -79,7 +83,6 @@
       padding: 0px;
       border-spacing: 0px;
     }
-
     td {
       background-color: rgba(240, 240, 240, 0.5); /* 偶數行背景 */
       border: 0px solid rgba(0, 0, 0, 0.3); /* 邊框顏色和透明度 */
@@ -96,14 +99,8 @@
       width: 14.28%;
       padding: 0px;
       text-align: center;
-      /* font-size: 200%;  */
       border-radius: 200px;/* 圓角 */
       font-size:1.5vw;
-    }
-    .tdSp
-    {
-      border: 0px solid rgba(0, 0, 0, 1.0); /* 邊框顏色和透明度 */
-      padding: 0px;
     }
     .tdRed{
       height: 1px;
@@ -118,17 +115,11 @@
         background-color:  rgba(0, 0, 255, 0.7);
         border: 0px solid rgba(0, 0, 0, 0.3); /* 邊框顏色和透明度 */
     }
-
     th {
       box-sizing: border-box;
       height: 10%;
       background-color: rgba(0, 123, 255, 0.5); /* 表頭的背景顏色 */
       color: white; /* 表頭文字顏色 */
-    }
-    /*tr:nth-child(even) {*/
-    tr {
-      /*background-color: rgba(240, 240, 240, 0.6); /* 偶數行背景 */
-      /*border-radius: 15px;/* 圓角 */
     }
     .trSize
     {
@@ -145,7 +136,6 @@
     .menutd:hover {
       background-color: rgba(100, 100, 255, 0.0); /* 全透明 */
     }
-
     .button {
       background-color: #4CAF50; /* 綠色背景 */
       width: 100%;
@@ -163,7 +153,6 @@
       transition: background-color 0.3s, transform 0.3s; /* 變色和縮放效果 */
       font-size: 1.0vw;
     }
-
     /* 滑鼠懸停時的樣式 */
     .button:hover {
       background-color: #45a049; /* 滑鼠懸停時變暗 */
@@ -173,7 +162,8 @@
     /* 按鈕被按下時的效果 */
     .button:active {
       transform: scale(0.95); /* 按下時縮小 */
-    }</style>
+    }
+    </style>
 </head>
 <body>
 <!-- /*請在這裹撰寫你的萬年曆程式碼*/   -->
@@ -196,7 +186,6 @@
         <td style="font-size:1.5vw; background-color: rgba(0, 0, 0, 0.0);">
           <button class="button" onclick="callPHP(1)">去年</button>
           <!-- <a href="index.php?year=<?=$year-1;?>&month=<?=$month;?>" style="display: block; height: 100%; width: 100%;">去年</a> -->
-          <!-- <input type="button" style="cla" value="取資料" onclick="callPHP()"> -->
         </td>
         <td class ="menutd" rowspan="2" colspan="1" style="font-size:3vw; color:gold;" id="viewYM"><?php echo $year."年".$month."月";?></td>
         <td style="font-size:1.5vw; background-color: rgba(0, 0, 0, 0.0);">
@@ -309,8 +298,6 @@
         }
       ?>
   </table>
-
-  <!-- <input type="button" value="取資料" onclick="callPHP()"> -->
   <p id="result"></p>
 </div>
 
@@ -325,6 +312,8 @@
   var cDay = <?php echo $currentDay ?>;
   const texts = <?php echo json_encode($markItem); ?>;
   let currentIndex = Math.floor(Math.random() * texts.length); 
+  var currentImageIndex = 0;
+  //var musicTF = 0;
   //初始顯示隨機文字
   document.getElementById("marquee-text").innerText = texts[currentIndex];  //換字跑馬燈
   function changeText() 
@@ -335,10 +324,11 @@
   // 每10秒更換一次文字 
   setInterval(changeText, 10000); 
 
-
-  //取資料
+  //取萬年曆資料
   function callPHP(ym) 
   {
+    var music = new Audio("bell.mp3");
+    music.play();
     changeBackground();
     switch(ym)
     {
@@ -381,64 +371,65 @@
     {
       if (xhr.status == 200) 
       {
-        try { 
-              // 嘗試解讀 JSON
-              var responseData = JSON.parse(xhr.responseText);
-              //console.log(responseData); // 印出JSON
-            } catch (e) 
+        try 
+        { 
+          // 嘗試解讀 JSON
+          var responseData = JSON.parse(xhr.responseText);
+          //console.log(responseData); // 印出JSON
+        } catch (e) 
+        {
+          console.error("解讀 JSON 錯誤: ", e);
+          document.getElementById("result").innerText = "PHP回應不正確";
+        }
+        responseData.forEach((week, weekIndex) => 
+        {
+          week.forEach((day, dayIndex) => 
+          {
+            //let eleTdName = `T${countNum}`;
+            //console.error(eleTdName);
+            let eleTD = document.getElementById(`T${countNum}`);
+            eleTD.classList.replace('tdRed', 'tdG');
+            eleTD.classList.replace('tdBlue', 'tdG');
+            if(year == cYear && month == cMonth1 && day == cDay && blueShow == 1)
             {
-              console.error("解讀 JSON 錯誤: ", e);
-              document.getElementById("result").innerText = "PHP回應不正確";
-            }
-            responseData.forEach((week, weekIndex) => 
+              blueShow = 0;
+              eleTD.classList.replace('tdG', 'tdBlue');                  
+            }else
             {
-              week.forEach((day, dayIndex) => 
+              if((countNum%7 == 0) || (countNum%7 == 6))
               {
-                //let eleTdName = `T${countNum}`;
-                //console.error(eleTdName);
-                let eleTD = document.getElementById(`T${countNum}`);
-                eleTD.classList.replace('tdRed', 'tdG');
-                eleTD.classList.replace('tdBlue', 'tdG');
-               if(year == cYear && month == cMonth1 && day == cDay && blueShow == 1)
-               {
-                blueShow = 0;
-                eleTD.classList.replace('tdG', 'tdBlue');                  
-               }else
-               {
-                if((countNum%7 == 0) || (countNum%7 == 6))
-                  {
-                    eleTD.classList.replace('tdG', 'tdRed');
-                  }
-               }
-                //console.error(`TD: ${countNum}`);
-                let ele = document.getElementById(`${countNum}`);
-                if(ele)
-                {
-                  //判斷是否是當月 字必須要黑色其餘灰色
-                  let currentStyle = ele.getAttribute("style");
-                  //console.error(`找不到 ID: ${countNum}`);
-                  if((countUp == -1) && (day == 1))
-                  {
-                    countUp = 0;
-                  }else if((countUp == 0) && (day == 1))
-                  {
-                    countUp = -2;
-                  }
-                  if(countUp == -1 || countUp == -2)
-                  {
-                    ele.style.color = "gray";
-                  }else
-                  {
-                    ele.style.color = "black";
-                  }
-                  ele.innerHTML = `${day}`;
-                }else
-                {
-                  console.error(`找不到 ID: ${countNum}`);
-                }
-                countNum = countNum + 1;
-              });
-            });
+                eleTD.classList.replace('tdG', 'tdRed');
+              }
+            }
+            //console.error(`TD: ${countNum}`);
+            let ele = document.getElementById(`${countNum}`);
+            if(ele)
+            {
+              //判斷是否是當月 字必須要黑色其餘灰色
+              let currentStyle = ele.getAttribute("style");
+              //console.error(`找不到 ID: ${countNum}`);
+              if((countUp == -1) && (day == 1))
+              {
+                countUp = 0;
+              }else if((countUp == 0) && (day == 1))
+              {
+                countUp = -2;
+              }
+              if(countUp == -1 || countUp == -2)
+              {
+                ele.style.color = "gray";
+              }else
+              {
+                ele.style.color = "black";
+              }
+              ele.innerHTML = `${day}`;
+            }else
+            {
+              console.error(`找不到 ID: ${countNum}`);
+            }
+            countNum = countNum + 1;
+          });
+        });
       } else 
       {
         console.error("Error with request: " + xhr.status);
@@ -448,6 +439,7 @@
     xhr.send();
   }
 
+  //載入完畢就執行
   window.onload = function() 
   {
     changeBackground();
@@ -464,11 +456,14 @@
       'pic/5.webp',
       'pic/6.webp',
     ];
-    let currentIndex = Math.floor(Math.random() * backImage.length); 
-    document.body.style.backgroundImage = `url('${backImage[currentIndex]}')`;
+    let currentIndex = 0;
+    do
+    {
+      currentIndex = Math.floor(Math.random() * backImage.length); 
+    }while(currentIndex == currentImageIndex)
+    currentImageIndex = currentIndex;
+    document.body.style.backgroundImage = `url('${backImage[currentImageIndex]}')`;
   }
 </script>  
-
-
 </body>
 </html>
